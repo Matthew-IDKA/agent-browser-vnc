@@ -1,0 +1,26 @@
+services:
+  agent-browser-vnc:
+    build: .
+    image: agent-browser-vnc:local
+    container_name: agent-browser-vnc
+    ports:
+      - "5800:5800"   # noVNC web viewer
+      - "5900:5900"   # VNC protocol
+      - "9222:9222"   # Chrome DevTools Protocol
+    volumes:
+      - /mnt/user/appdata/agent-browser-vnc:/config:rw
+    shm_size: "2g"
+    cap_add:
+      - SYS_ADMIN     # Required for Chromium sandbox
+    environment:
+      - TZ=America/New_York
+      - KEEP_APP_RUNNING=1
+      - AGENT_BROWSER_IDLE_TIMEOUT_MS=300000
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: "1.0"
+    restart: unless-stopped
