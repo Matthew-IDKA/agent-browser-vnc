@@ -1,8 +1,17 @@
+# Pre-requisite: inhale network must exist before this stack starts.
+# Created by Unraid go file: docker network create inhale 2>/dev/null
+networks:
+  inhale:
+    external: true
+
 services:
   agent-browser-vnc:
     build: .
     image: agent-browser-vnc:local
     container_name: agent-browser-vnc
+    networks:
+      - inhale
+      - default
     ports:
       - "5800:5800"   # noVNC web viewer
       - "5900:5900"   # VNC protocol
