@@ -18,6 +18,8 @@ services:
       - AGENT_BROWSER_IDLE_TIMEOUT_MS=300000
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
+      # Route page fetches through inhale proxy rotation (Tor + ProtonVPN)
+      - CHROMIUM_PROXY_SERVER=http://inhale-proxy:8118
     deploy:
       resources:
         limits:
