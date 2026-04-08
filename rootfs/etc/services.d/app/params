@@ -12,9 +12,21 @@ printf "%s\n" "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
 printf "%s\n" "--start-maximized"
 printf "%s\n" "--user-data-dir=/config/chromium"
 
+# Anti-detection: suppress automation signals
+printf "%s\n" "--disable-blink-features=AutomationControlled"
+printf "%s\n" "--disable-features=EnableAutomation"
+printf "%s\n" "--disable-infobars"
+
 # Enable Chrome DevTools Protocol for remote debugging and agent-browser --cdp
+# Bound to 0.0.0.0 for container network access (CDP rejects non-localhost by default)
 printf "%s\n" "--remote-debugging-port=9222"
 printf "%s\n" "--remote-debugging-address=0.0.0.0"
+printf "%s\n" "--remote-allow-origins=*"
+
+# Proxy support (set CHROMIUM_PROXY_SERVER env var to enable)
+if [ -n "${CHROMIUM_PROXY_SERVER:-}" ]; then
+    printf "%s\n" "--proxy-server=$CHROMIUM_PROXY_SERVER"
+fi
 
 if [ -n "${CHROMIUM_APP_URL:-}" ]; then
     printf "%s\n" "--app=$CHROMIUM_APP_URL"

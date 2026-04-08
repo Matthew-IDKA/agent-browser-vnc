@@ -16,8 +16,8 @@ FROM jlesage/chromium:v26.03.2
 
 ARG AGENT_BROWSER_VERSION=0.21.0
 
-# Install Node.js (needed for agent-browser npm install) and curl
-RUN add-pkg nodejs npm curl
+# Install Node.js (needed for agent-browser npm install), curl, and socat (CDP network proxy)
+RUN add-pkg nodejs npm curl socat
 
 # Install agent-browser globally
 # The postinstall script downloads the musl-compatible Rust binary
@@ -33,8 +33,9 @@ COPY rootfs/ /
 # Expose ports:
 #   5800 - noVNC web viewer (from base image)
 #   5900 - VNC protocol (from base image)
-#   9222 - Chrome DevTools Protocol
-EXPOSE 5800 5900 9222
+#   9222 - Chrome DevTools Protocol (localhost only, Chrome enforced)
+#   9223 - CDP network proxy (socat: 0.0.0.0:9223 -> 127.0.0.1:9222)
+EXPOSE 5800 5900 9222 9223
 
 # Environment defaults
 ENV \

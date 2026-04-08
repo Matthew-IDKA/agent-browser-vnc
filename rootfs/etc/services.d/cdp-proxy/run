@@ -1,0 +1,13 @@
+#!/bin/sh
+# CDP network proxy -- exposes Chrome DevTools Protocol to the Docker network.
+# Chrome 144+ binds CDP to localhost only. This socat proxy forwards
+# 0.0.0.0:9223 -> 127.0.0.1:9222 so other containers can connect via CDP.
+#
+# Clients must set Host: localhost:9222 header (Chrome rejects non-localhost Host).
+
+# Wait for Chrome to start listening on 9222
+while ! netstat -tlnp 2>/dev/null | grep -q ':9222'; do
+    sleep 2
+done
+
+exec socat TCP-LISTEN:9223,fork,reuseaddr TCP:127.0.0.1:9222
