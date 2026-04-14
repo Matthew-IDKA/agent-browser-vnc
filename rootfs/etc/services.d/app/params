@@ -26,6 +26,7 @@ printf "%s\n" "--remote-allow-origins=*"
 # Proxy support (set CHROMIUM_PROXY_SERVER env var to enable)
 if [ -n "${CHROMIUM_PROXY_SERVER:-}" ]; then
     printf "%s\n" "--proxy-server=$CHROMIUM_PROXY_SERVER"
+    printf "%s\n" "--proxy-bypass-list=192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,localhost,127.0.0.1"
 fi
 
 if [ -n "${CHROMIUM_APP_URL:-}" ]; then
