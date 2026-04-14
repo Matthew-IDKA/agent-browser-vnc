@@ -57,6 +57,6 @@ ssh "$REMOTE" "cd $BUILD_DIR && docker build -t agent-browser-vnc:local . 2>&1 |
 
 echo "Restarting container..."
 # shellcheck disable=SC2029
-ssh "$REMOTE" "cd $COMPOSE_DIR && docker compose up -d agent-browser-vnc 2>&1"
+ssh "$REMOTE" "cd $COMPOSE_DIR && docker compose up -d --force-recreate agent-browser-vnc 2>&1"
 
 echo "=== Deploy complete ==="

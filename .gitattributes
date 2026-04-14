@@ -1,0 +1,4 @@
+# Enforce LF line endings everywhere -- scripts run on Linux (Docker).
+# Overrides core.autocrlf=true on Windows checkouts.
+* text=auto eol=lf
+*.sh text eol=lf
